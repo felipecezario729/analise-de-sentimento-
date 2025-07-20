@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Análise de Sentimento dos Hotéis</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f7f7f7; }
+    h1 { color: #2c3e50; }
+    .hotel { background: white; border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .sentimento { font-weight: bold; }
+    .positivo { color: green; }
+    .negativo { color: red; }
+    .neutro { color: gray; }
+  </style>
+</head>
+<body>
+  <h1>Resultado da Análise de Sentimento - Hotéis RJ</h1>
+  <div id="resultados"></div>
+
+  <script>
+    const dados = {
+      documents: [
+        {
+          id: "1",
+          nome: "Hotel Atlântico Praia",
+          sentimento: "mixed",
+          scores: { positive: 0.60, neutral: 0.30, negative: 0.10 },
+          frases: [
+            "Ótima localização, bem em frente à praia.",
+            "O quarto era limpo, mas um pouco pequeno.",
+            "Check-in demorou."
+          ]
+        },
+        {
+          id: "2",
+          nome: "Windsor Marapendi",
+          sentimento: "positive",
+          scores: { positive: 0.95, neutral: 0.04, negative: 0.01 },
+          frases: [
+            "Quartos espaçosos, modernos e com vista deslumbrante.",
+            "Atendimento impecável e café da manhã completo."
+          ]
+        },
+        {
+          id: "3",
+          nome: "Ipanema Inn",
+          sentimento: "positive",
+          scores: { positive: 0.90, neutral: 0.08, negative: 0.02 },
+          frases: [
+            "Hotel charmoso e com estilo boutique.",
+            "Localização perfeita, perto da praia e metrô."
+          ]
+        },
+        {
+          id: "4",
+          nome: "Radisson Barra",
+          sentimento: "neutral",
+          scores: { positive: 0.40, neutral: 0.50, negative: 0.10 },
+          frases: [
+            "Quartos amplos e bem equipados.",
+            "Restaurante poderia ter mais opções à noite."
+          ]
+        }
+      ]
+    };
+
+    const container = document.getElementById("resultados");
+
+    dados.documents.forEach(hotel => {
+      const div = document.createElement("div");
+      div.className = "hotel";
+
+      const sentimentoClasse = hotel.sentimento === "positive" ? "positivo"
+        : hotel.sentimento === "negative" ? "negativo" : "neutro";
+
+      div.innerHTML = `
+        <h2>${hotel.nome}</h2>
+        <p class="sentimento ${sentimentoClasse}">Sentimento: ${hotel.sentimento.toUpperCase()}</p>
+        <p>Confiança: Positivo: ${(hotel.scores.positive * 100).toFixed(0)}% | Neutro: ${(hotel.scores.neutral * 100).toFixed(0)}% | Negativo: ${(hotel.scores.negative * 100).toFixed(0)}%</p>
+        <h4>Frases analisadas:</h4>
+        <ul>
+          ${hotel.frases.map(f => `<li>${f}</li>`).join("")}
+        </ul>
+      `;
+
+      container.appendChild(div);
+    });
+  </script>
+</body>
+</html>
